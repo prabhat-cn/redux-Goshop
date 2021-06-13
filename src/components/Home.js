@@ -2,22 +2,28 @@
 import React, { useEffect } from "react";
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
-import Loader from '../components/layout/Loader'
+import Loader from "../components/layout/Loader";
 import { useSelector, useDispatch } from "react-redux";
+import { useAlert } from "react-alert";
 import { getProducts } from "../actions/productActions";
 
 const Home = () => {
+  const alert = useAlert();
+  const dispatch = useDispatch();
   // "allProducts" name in store
   // value inside of "products" api end loading, productsCount, products, error from reducer
   // const state = useSelector((state) => state.allProducts.products)
-  const { loading, productsCount, products } = useSelector(
+  const { loading, productsCount, products, error } = useSelector(
     (state) => state.allProducts
   );
-  console.log("all-pro->", productsCount, products);
-  const dispatch = useDispatch();
+  console.log("all-pro->", products, productsCount);
   useEffect(() => {
+    if (error) {
+      // alert.success('Success')
+      return alert.error(error);
+    }
     dispatch(getProducts());
-  }, [dispatch]);
+  }, [dispatch, alert, error]);
   return (
     <>
       {loading ? (
