@@ -1,0 +1,4 @@
+type link inside of proxy
+"proxy": "https://redcomsuman.herokuapp.com"
+
+redux-rule-> type/ constants-> reducers -> actions
