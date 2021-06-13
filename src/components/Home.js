@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
+import Loader from '../components/layout/Loader'
 import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../actions/productActions";
 
@@ -20,7 +21,7 @@ const Home = () => {
   return (
     <>
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <>
           {/* Prop pass here */}
