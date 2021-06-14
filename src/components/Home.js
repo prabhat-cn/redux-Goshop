@@ -1,5 +1,8 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from "react";
+/* eslint-disable no-undef */
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect } from "react";
+import Pagination from "react-js-pagination";
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
 import Loader from "../components/layout/Loader";
@@ -8,22 +11,28 @@ import { useAlert } from "react-alert";
 import { getProducts } from "../actions/productActions";
 
 const Home = () => {
+  const [currentPage, setCurrentPage] = useState(1)
   const alert = useAlert();
   const dispatch = useDispatch();
   // "allProducts" name in store
-  // value inside of "products" api end loading, productsCount, products, error from reducer
+  // from backend value inside of "products" api end loading, productsCount, products, error from reducer
   // const state = useSelector((state) => state.allProducts.products)
-  const { loading, productsCount, products, error } = useSelector(
+  const { loading, productsCount, products, resPerPage, error } = useSelector(
     (state) => state.allProducts
   );
   console.log("all-pro->", products, productsCount);
+
+  function setCurrentPageNo(pageNumber){
+    setCurrentPage(pageNumber)
+  }
+
   useEffect(() => {
     if (error) {
       // alert.success('Success')
       return alert.error(error);
     }
-    dispatch(getProducts());
-  }, [dispatch, alert, error]);
+    dispatch(getProducts(currentPage));
+  }, [dispatch, alert, error, currentPage]);
   return (
     <>
       {loading ? (
@@ -41,6 +50,23 @@ const Home = () => {
                 ))}
             </div>
           </section>
+          {/* Pagination showed maximun 2 pages */}
+          {resPerPage <= productsCount && (
+            <div className="d-flex justify-content-center mt-5">
+                <Pagination 
+                  activePage={currentPage}
+                  itemsCountPerPage={resPerPage}
+                  totalItemsCount={productsCount}
+                  onChange={setCurrentPageNo}
+                  nextPageText={'Next'}
+                  prevPageText={'Prev'}
+                  firstPageText={'First'}
+                  lastPageText={'Last'}
+                  itemClass='page-item'
+                  linkClass='page-link'
+                />
+            </div>
+          )}
         </>
       )}
     </>
