@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react/prop-types */
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
@@ -10,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
 import { getProducts } from "../actions/productActions";
 
-const Home = () => {
+const Home = ({ match }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -21,6 +23,9 @@ const Home = () => {
     (state) => state.allProducts
   );
   console.log("all-pro->", products, productsCount);
+  // take from home.js
+  const keyword = match.params.keyword
+  console.log('keyword', keyword);
 
   function setCurrentPageNo(pageNumber){
     setCurrentPage(pageNumber)
@@ -31,8 +36,8 @@ const Home = () => {
       // alert.success('Success')
       return alert.error(error);
     }
-    dispatch(getProducts(currentPage));
-  }, [dispatch, alert, error, currentPage]);
+    dispatch(getProducts(keyword, currentPage));
+  }, [dispatch, alert, error, keyword, currentPage]);
   return (
     <>
       {loading ? (
