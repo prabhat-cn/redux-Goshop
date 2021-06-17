@@ -13,10 +13,14 @@ import {
 } from "../constants/productConstants";
 
 // "keyword" for search
-export const getProducts = (keyword='', currentPage = 1) => async (dispatch) => {
+export const getProducts = (keyword='', currentPage = 1, price) => async (dispatch) => {
   try {
-    dispatch({ type: ALL_PRODUCTS_REQUEST });
-    const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product?keyword=${keyword}&page=${currentPage}`)
+    dispatch({ type: ALL_PRODUCTS_REQUEST })
+    let link = `${process.env.REACT_APP_API}/api/v1/product?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}`
+
+
+    const { data } = await axios.get(link)
+
     dispatch({
       type: ALL_PRODUCTS_SUCCESS,
       payload: data,
