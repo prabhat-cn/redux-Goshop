@@ -23,7 +23,25 @@ const Range = createSliderWithTooltip(Slider.Range)
 
 const Home = ({ match }) => {
   const [currentPage, setCurrentPage] = useState(1)
+  // price filter
   const [price, setPrice] = useState([1,1000])
+  // category filter
+  const [category, setCategory] = useState('')
+  const categories =[
+    'Electronics',
+    'Cameras',
+    'Laptop',
+    'Accessories',
+    'Headphones',
+    'Food',
+    'Books',
+    'Clothes/Shoes',
+    'Beauty/Health',
+    'Sports',
+    'Outdoor',
+    'Home'
+  ]
+  console.log('categories', categories);
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -47,8 +65,8 @@ const Home = ({ match }) => {
       // alert.success('Success')
       return alert.error(error);
     }
-    dispatch(getProducts(keyword, currentPage, price));
-  }, [dispatch, alert, error, keyword, currentPage, price]);
+    dispatch(getProducts(keyword, currentPage, price, category));
+  }, [dispatch, alert, error, keyword, currentPage, price, category]);
   return (
     <>
       {loading ? (
@@ -81,6 +99,20 @@ const Home = ({ match }) => {
                       value={price}
                       onChange={price => setPrice(price)}
                     />
+                    <hr className="my-5" />
+                    <div className="mt-5">
+                      <h4 className="mb-3">
+                      Categories
+                      </h4>
+                      <ul className="pl-0">
+                        {categories.map(category =>(
+                          <li style={{cursor: 'pointer', listStyleType: 'none'}} 
+                          key={category} onClick={() => setCategory(category)}>
+                              {category}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
                 </>
