@@ -3,10 +3,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Pagination from "react-js-pagination";
 
-import Slider, { Range } from 'rc-slider';
+import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import MetaData from "./layout/MetaData";
@@ -18,12 +18,12 @@ import { useAlert } from "react-alert";
 import { getProducts } from "../actions/productActions";
 
 // price range sorting
-const { createSliderWithTooltip } = Slider;
-const Range = createSliderWithTooltip(Slider.Range);
+const {createSliderWithTooltip} = Slider;
+const Range = createSliderWithTooltip(Slider.Range)
 
 const Home = ({ match }) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [price, setPrice] = useState([1, 1000])
+  const [price, setPrice] = useState([1,1000]);
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -70,7 +70,9 @@ const Home = ({ match }) => {
                         1: `$1`,
                         1000: `$1000`
                       }}
-                      min={1} max={1000} defaultValue={[1, 1000]}
+                      min={1} 
+                      max={1000} 
+                      defaultValue={[1, 1000]}
                       tipFormatter={value => `$${value}`}
                       tipProps={{
                         placement: 'top',
@@ -84,6 +86,7 @@ const Home = ({ match }) => {
                 </>
 
               ): (
+                products &&
                 products.map((product) => (
                   <Product key={product._id} product={product} />
                 ))
